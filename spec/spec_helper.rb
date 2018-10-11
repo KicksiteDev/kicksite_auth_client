@@ -1,3 +1,18 @@
+require 'simplecov'
+
+SimpleCov.start do
+  coverage_dir 'tmp/test-results/test-coverage'
+
+  add_filter '/spec/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Internal Libraries', 'lib'
+  add_group 'Models', 'app/models'
+end
+
 require 'bundler/setup'
 require 'kicksite_auth_client'
 
