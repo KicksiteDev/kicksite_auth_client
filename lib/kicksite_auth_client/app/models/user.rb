@@ -1,5 +1,6 @@
 require_relative '../helpers/kicksite_auth_base'
 
+# User interactions with REST endpoints
 class User < KicksiteAuthBase
   # Authenticate user for use against other endpoints.
   #
@@ -11,7 +12,7 @@ class User < KicksiteAuthBase
   #
   # @return [Hash] Hash with generated token on success
   def authenticate!
-    response = self.post(:sessions)
+    response = post(:sessions)
     JSON.parse(response.body)
   end
 end
