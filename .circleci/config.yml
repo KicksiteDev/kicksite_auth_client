@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/kicksite_auth_client
+    docker:
+      - image: circleci/ruby:2.5
+        environment:
+          RAILS_ENV: test
+
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - kicksite_auth_client-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run:
+          name: Bundle Install
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs 4 --retry 3
+
+      # Store bundle cache
+      - save_cache:
+          key: kicksite_auth_client-{{ checksum "Gemfile.lock" }}
+          paths:
+           - vendor/bundle
+
+      - run:
+          name: Run Tests
+          command: bundle exec rspec spec
+
+      - run:
+          name: Run static code analyzer
+          command: |
+            gem install --no-rdoc --no-ri rubocop
+            rubocop --format html -o tmp/test-results/rubocop/results.html
+
+      - store_artifacts:
+          path: ./tmp/test-results
