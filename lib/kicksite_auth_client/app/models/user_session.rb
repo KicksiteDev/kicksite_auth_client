@@ -5,13 +5,13 @@ class UserSession < KicksiteAuthBase
   self.collection_name = 'users'
   self.element_name = 'users'
 
-  USER_SESSION_ATTRIBUTE_EXCLUSIONS = [
-    'login',
-    'password',
-    'email',
-    'username',
-    'context'
-  ]
+  USER_SESSION_ATTRIBUTE_EXCLUSIONS = %w[
+    login
+    password
+    email
+    username
+    context
+  ].freeze
 
   # Authenticate user for use against other endpoints.
   #
@@ -32,17 +32,17 @@ class UserSession < KicksiteAuthBase
   #
   # @return [Hash] Hash with generated token on success
   def authenticate!
-    self.login = self.respond_to?('username') ? self.username : self.email
+    self.login = respond_to?('username') ? username : email
     begin
       response = post(:sessions)
     rescue StandardError
-      self.attributes = self.attributes.except('login')
+      self.attributes = attributes.except('login')
       self.password = '***********'
       raise
     end
 
     load_attributes_from_response(response)
-    self.attributes = self.attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
+    self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
     UserSession.new(JSON.parse(response.body))
   end
 
@@ -65,12 +65,10 @@ class UserSession < KicksiteAuthBase
   #
   # @return [Boolean] True if authentication was successful
   def authenticate
-    begin
-      authenticate!
-      return true
-    rescue ActiveResource::ResourceNotFound
-      return false
-    end
+    authenticate!
+    true
+  rescue ActiveResource::ResourceNotFound
+    false
   end
 
   # Method of validating a user token while also retrieving the user the token is for.
@@ -90,7 +88,7 @@ class UserSession < KicksiteAuthBase
     @persisted = true
     response = post(:sessions)
     load_attributes_from_response(response)
-    self.attributes = self.attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
+    self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
     UserSession.new(JSON.parse(response.body))
   end
 
@@ -108,11 +106,9 @@ class UserSession < KicksiteAuthBase
   #
   # @return [Type] description_of_returned_object
   def validate
-    begin
-      validate!
-      return true
-    rescue ActiveResource::ResourceNotFound
-      return false
-    end
+    validate!
+    true
+  rescue ActiveResource::ResourceNotFound
+    false
   end
 end

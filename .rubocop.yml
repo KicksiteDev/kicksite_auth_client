@@ -2,3 +2,6 @@
 # URISchemes: http, https
 Metrics/LineLength:
   Max: 115
+
+Metrics/MethodLength:
+  Max: 50
