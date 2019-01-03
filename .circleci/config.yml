@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Run static code analyzer
           command: |
-            gem install --no-rdoc --no-ri rubocop
+            gem install rubocop
             rubocop --format html -o tmp/test-results/rubocop/results.html
 
       - store_artifacts:
