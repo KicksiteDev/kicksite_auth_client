@@ -43,7 +43,7 @@ class UserSession < KicksiteAuthBase
 
     load_attributes_from_response(response)
     self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
-    UserSession.new(JSON.parse(response.body))
+    build_user_session_object(response)
   end
 
   # Authenticate user for use against other endpoints.
@@ -89,7 +89,7 @@ class UserSession < KicksiteAuthBase
     response = post(:sessions)
     load_attributes_from_response(response)
     self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
-    UserSession.new(JSON.parse(response.body))
+    build_user_session_object(response)
   end
 
   # Method of validating a user token while also retrieving the user the token is for.
@@ -110,5 +110,18 @@ class UserSession < KicksiteAuthBase
     true
   rescue ActiveResource::ResourceNotFound
     false
+  end
+
+  private
+
+  # Use the given response to build out a proper UserSession object
+  #
+  # @param response [Net::HTTPCreated] response from auth-api
+  # @return [UserSession] a built out UserSession object
+  def build_user_session_object(response)
+    user              = Auth::User.new(JSON.parse(response.body)['user'])
+    user_session      = UserSession.new(JSON.parse(response.body))
+    user_session.user = user
+    user_session
   end
 end
