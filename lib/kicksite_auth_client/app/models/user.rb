@@ -14,5 +14,13 @@ module Auth
     def administrator?
       person_type.casecmp?('administrator')
     end
+
+    def permitted?(feature)
+      permissions.member?(feature.to_s)
+    end
+
+    def restricted?(feature)
+      !permitted?(feature)
+    end
   end
 end
