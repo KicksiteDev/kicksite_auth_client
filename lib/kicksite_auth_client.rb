@@ -1,4 +1,4 @@
-Dir["#{File.dirname(__FILE__)}/kicksite_auth_client/**/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/kicksite_auth_client/**/*.rb"].sort.each { |file| require file }
 
 # Entry to REST api model definitions
 module KicksiteAuthClient
