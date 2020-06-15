@@ -1,4 +1,4 @@
-module Auth
+module KicksiteAuth
   # An object that acts sort of similar to an ActiveResource object
   # but without all the extras ActiveResource gives that doesn't exist for this.
   class NoSvcObject
@@ -13,9 +13,9 @@ module Auth
       end
 
       payload.each do |key, value|
-        define_instance_variable(key, value.is_a?(Hash) ? Auth::NoSvcObject.new(value) : value)
+        define_instance_variable(key, value.is_a?(Hash) ? KicksiteAuth::NoSvcObject.new(value) : value)
         define_getter(key)
-        define_setter(key, value.is_a?(Hash) ? Auth::NoSvcObject.new(value) : value)
+        define_setter(key, value.is_a?(Hash) ? KicksiteAuth::NoSvcObject.new(value) : value)
       end
     end
 
@@ -37,9 +37,9 @@ module Auth
         key = method.to_s.sub('=', '')
         value = args.first
 
-        define_instance_variable(key, value.is_a?(Hash) ? Auth::NoSvcObject.new(value) : value)
+        define_instance_variable(key, value.is_a?(Hash) ? KicksiteAuth::NoSvcObject.new(value) : value)
         define_getter(key)
-        define_setter(key, value.is_a?(Hash) ? Auth::NoSvcObject.new(value) : value)
+        define_setter(key, value.is_a?(Hash) ? KicksiteAuth::NoSvcObject.new(value) : value)
       else
         super
       end

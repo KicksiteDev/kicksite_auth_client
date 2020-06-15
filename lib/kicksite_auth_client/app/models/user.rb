@@ -1,8 +1,8 @@
 require_relative '../helpers/no_svc_object'
 
-module Auth
+module KicksiteAuth
   # Provides helper methods to call on UserSession.user object
-  class User < Auth::NoSvcObject
+  class User < KicksiteAuth::NoSvcObject
     def student?
       person_type.casecmp?('student')
     end

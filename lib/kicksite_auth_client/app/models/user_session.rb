@@ -1,6 +1,6 @@
 require_relative '../helpers/kicksite_auth_base'
 
-module Auth
+module KicksiteAuth
   # User session interactions with REST endpoints
   class UserSession < KicksiteAuthBase
     self.collection_name = 'users'
@@ -120,8 +120,8 @@ module Auth
     # @param response [Net::HTTPCreated] response from auth-api
     # @return [UserSession] a built out UserSession object
     def build_user_session_object(response)
-      user              = Auth::User.new(JSON.parse(response.body)['user'])
-      user_session      = Auth::UserSession.new(JSON.parse(response.body))
+      user              = KicksiteAuth::User.new(JSON.parse(response.body)['user'])
+      user_session      = KicksiteAuth::UserSession.new(JSON.parse(response.body))
       user_session.user = user
       user_session
     end
