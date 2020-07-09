@@ -21,7 +21,17 @@ module KicksiteAuth
 
     def to_hash
       hash = {}
-      instance_variables.each { |var| hash[var.to_s.delete('@')] = instance_variable_get(var) }
+      instance_variables.each do |var|
+        get_var = instance_variable_get(var)
+        hash[var.to_s.delete('@')] = if get_var.present? && get_var.respond_to?(:to_hash)
+                                       get_var.to_hash
+                                     elsif get_var.present? && get_var.respond_to?(:attributes)
+                                       get_var.attributes
+                                     else
+                                       get_var
+                                     end
+      end
+
       hash
     end
 
