@@ -7,6 +7,7 @@ module KicksiteAuth
       created_at
     ].freeze
 
+    # rubocop:disable Style/OptionalBooleanParameter
     def initialize(payload = {}, _persisted = false)
       BASE_DATETIME_KEYS.each do |key|
         payload[key] = to_datetime(payload[key])
@@ -18,6 +19,7 @@ module KicksiteAuth
         define_setter(key, value.is_a?(Hash) ? KicksiteAuth::NoSvcObject.new(value) : value)
       end
     end
+    # rubocop:enable Style/OptionalBooleanParameter
 
     def to_hash
       hash = {}
