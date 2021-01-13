@@ -96,7 +96,6 @@ module KicksiteAuth
     def community_login!
       @persisted = true
       response = post(:community)
-      byebug
       load_attributes_from_response(response)
       self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
       build_user_session_object(response)
