@@ -93,6 +93,14 @@ module KicksiteAuth
       build_user_session_object(response)
     end
 
+    def community_login!
+      @persisted = true
+      response = post(:community)
+      load_attributes_from_response(response)
+      self.attributes = attributes.except(*USER_SESSION_ATTRIBUTE_EXCLUSIONS)
+      build_user_session_object(response)
+    end
+
     # Method of validating a user token while also retrieving the user the token is for.
     #
     # Examples:
