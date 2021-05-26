@@ -16,7 +16,7 @@ module KicksiteAuth
     end
 
     def kicksite_admin?
-      context_type == 'Admin' && context_id == nil
+      context_type == 'Admin' && context_id.nil?
     end
 
     def permitted?(feature)
