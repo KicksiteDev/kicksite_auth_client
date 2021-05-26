@@ -15,6 +15,10 @@ module KicksiteAuth
       person_type.casecmp?('administrator')
     end
 
+    def kicksite_admin?
+      context_type == 'Admin' && context_id.nil?
+    end
+
     def permitted?(feature)
       permissions.member?(feature.to_s)
     end
