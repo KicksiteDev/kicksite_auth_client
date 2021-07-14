@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
 ```
-export KICKSITE_AUTH_URL=http://api.kicksite.test:5000
+export KICKSITE_AUTH_URL=http://api.kicksite.test:5010
 ```
 
 ## Development
