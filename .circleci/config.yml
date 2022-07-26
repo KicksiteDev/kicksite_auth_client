@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/kicksite_auth_client
     docker:
-      - image: cimg/ruby:2.5.9
+      - image: cimg/ruby:2.7.2
         environment:
           RAILS_ENV: test
 
