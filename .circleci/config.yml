@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/kicksite_auth_client
     docker:
-      - image: circleci/ruby:2.5
+      - image: cimg/ruby:2.5.9
         environment:
           RAILS_ENV: test
 
@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Run static code analyzer
           command: |
-            gem install rubocop
+            gem install rubocop -v 1.14.0
             rubocop --format html -o tmp/test-results/rubocop/results.html
 
       - store_artifacts:
